@@ -1,40 +1,44 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { User } from 'firebase/auth';
 
-interface ChildProfile {
+export interface ChildProfile {
   id: string;
+  parentId: string;
   name: string;
   avatarUrl: string;
   level: number;
   exp: number;
   stars: number;
+  createdAt: number;
 }
 
 interface ParentAuthState {
   isAuthenticated: boolean;
   pin: string | null;
+  firebaseUser: User | null;
   children: ChildProfile[];
-  login: (pin: string) => void;
+  setFirebaseUser: (user: User | null) => void;
+  loginPin: (pin: string) => void;
   logout: () => void;
-  addChild: (child: Omit<ChildProfile, 'id'>) => void;
+  setChildren: (children: ChildProfile[]) => void;
 }
 
 export const useParentAuthStore = create<ParentAuthState>()(
   persist(
     (set) => ({
       isAuthenticated: false,
-      pin: null, // Should be verified securely, but simple for now
-      children: [
-        { id: '1', name: 'Aaa', avatarUrl: 'https://i.pravatar.cc/150?u=aaa', level: 1, exp: 80, stars: 5 },
-      ],
-      login: (pin) => set({ isAuthenticated: true, pin }),
-      logout: () => set({ isAuthenticated: false, pin: null }),
-      addChild: (child) => set((state) => ({ 
-        children: [...state.children, { ...child, id: Math.random().toString(36).substring(7) }] 
-      })),
+      pin: null,
+      firebaseUser: null,
+      children: [],
+      setFirebaseUser: (user) => set({ firebaseUser: user }),
+      loginPin: (pin) => set({ isAuthenticated: true, pin }),
+      logout: () => set({ isAuthenticated: false, pin: null, firebaseUser: null, children: [] }),
+      setChildren: (children) => set({ children }),
     }),
     {
       name: 'parent-auth-storage',
+      partialize: (state) => ({ pin: state.pin, isAuthenticated: state.isAuthenticated }), // Only persist pin/auth state
     }
   )
 );

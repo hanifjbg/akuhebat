@@ -1,4 +1,5 @@
-import { createBrowserRouter, Navigate, Routes, Route } from 'react-router-dom';
+import { createBrowserRouter, Navigate, Routes, Route, Outlet } from 'react-router-dom';
+import { useEffect } from 'react';
 import { UxLabIndex } from '../pages/ux-lab/UxLabIndex';
 import { LoginPage } from '../pages/ux-lab/auth/LoginPage';
 import { ProfilesPage } from '../pages/ux-lab/auth/ProfilesPage';
@@ -14,25 +15,30 @@ import { WordBuilderPage } from '../pages/ux-lab/minigames/WordBuilderPage';
 import { ColoringPage } from '../pages/ux-lab/minigames/ColoringPage';
 import { StoryTimePage } from '../pages/ux-lab/fullscreen/StoryTimePage';
 import { AdminDashboardPage } from '../pages/ux-lab/admin/AdminDashboardPage';
+import { AdminLayout } from '../pages/admin/AdminLayout';
+import { MainLayout } from '../pages/main/MainLayout';
+import { KidsAuthLayout } from '../pages/main/KidsAuthLayout';
+import { setupAuthListener } from '../modules/auth/index';
+import { listenToChildProfiles } from '../modules/auth/kids-profiles';
+import { useParentAuthStore } from '../core/state/parent-store';
 
-const MainLayout = () => (
-  <div className="flex items-center justify-center h-[100dvh] w-[100dvw]">
-    <div className="text-center">
-      <h1 className="text-4xl font-bold text-primary mb-4">AKU HEBAT!</h1>
-      <p className="text-lg text-slate-600">Area Anak - Under Construction</p>
-    </div>
-  </div>
-);
+const MainAppWrapper = () => {
+  const { firebaseUser } = useParentAuthStore();
+  
+  useEffect(() => {
+    const unsubscribeAuth = setupAuthListener();
+    return () => unsubscribeAuth();
+  }, []);
 
-const AdminLayout = () => (
-  // Will be implemented later in Stage 4
-  <div className="flex items-center justify-center h-[100dvh] w-[100dvw] theme-admin">
-    <div className="text-center">
-      <h1 className="text-4xl font-bold mb-4 text-slate-800">Admin Dashboard</h1>
-      <p className="text-lg text-slate-600">Under Construction</p>
-    </div>
-  </div>
-);
+  useEffect(() => {
+    if (firebaseUser) {
+      const unsubscribeChildren = listenToChildProfiles(firebaseUser.uid);
+      return () => unsubscribeChildren();
+    }
+  }, [firebaseUser]);
+
+  return <Outlet />;
+};
 
 const UxLabLayout = () => (
   <Routes>
@@ -57,11 +63,21 @@ const UxLabLayout = () => (
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navigate to="/ux-lab" replace />
+    element: <Navigate to="/main" replace />
   },
   {
-    path: '/main/*',
-    element: <MainLayout />
+    path: '/main',
+    element: <MainAppWrapper />,
+    children: [
+      {
+        path: 'auth/*',
+        element: <KidsAuthLayout />
+      },
+      {
+        path: '*',
+        element: <MainLayout />
+      }
+    ]
   },
   {
     path: '/admin/*',

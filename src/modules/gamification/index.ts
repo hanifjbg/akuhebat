@@ -1,4 +1,7 @@
 import { eventBus, EVENTS } from '../../core/event-bus';
+import { useKidsSessionStore } from '../../core/state/kids-store';
+import { useParentAuthStore } from '../../core/state/parent-store';
+import { updateChildProfile } from '../auth/kids-profiles';
 
 export class GamificationEngine {
   constructor() {
@@ -11,29 +14,57 @@ export class GamificationEngine {
     });
   }
 
-  private calculateRewards(score: number, totalQuestions: number) {
-    // Score should be passed as 10-100 logic, assuming here the module handles scaling it.
-    // If score is 0-100:
+  private async calculateRewards(score: number, totalQuestions: number) {
     let expGained = 0;
-    let stars = 0;
+    let gainedStars = 0;
 
     if (score >= 80) {
       expGained = score * 3 + 50; // Bonus EXp
-      stars = 5;
+      gainedStars = 5;
     } else if (score >= 50) {
       expGained = score * 2;
-      stars = 3;
+      gainedStars = 3;
     } else {
       expGained = score;
-      stars = 1;
+      gainedStars = 1;
     }
 
-    eventBus.emit(EVENTS.SCORE_UPDATED, { expGained, stars, score });
+    eventBus.emit(EVENTS.SCORE_UPDATED, { expGained, stars: gainedStars, score });
     
-    // In a full implementation, we then load the child's profile from Firebase
-    // or local store, add the exp, and check if it crosses a level threshold.
-    // e.g. nextLevelReq = currentLevel * 1000
-    // if (totalExp >= nextLevelReq) { eventBus.emit(EVENTS.LEVEL_UP, { newLevel }) }
+    // Update Firebase
+    const { activeChildId } = useKidsSessionStore.getState();
+    const { firebaseUser, children } = useParentAuthStore.getState();
+    
+    if (activeChildId && firebaseUser) {
+      const activeChild = children.find(c => c.id === activeChildId);
+      if (activeChild) {
+        let newExp = activeChild.exp + expGained;
+        let newLevel = activeChild.level;
+        const newStars = activeChild.stars + gainedStars;
+        
+        let levelUp = false;
+        
+        // Simple leveling logic: 500 exp per level
+        while (newExp >= newLevel * 500) {
+          newLevel++;
+          levelUp = true;
+        }
+        
+        try {
+          await updateChildProfile(firebaseUser.uid, activeChildId, {
+            exp: newExp,
+            level: newLevel,
+            stars: newStars
+          });
+          
+          if (levelUp) {
+            eventBus.emit(EVENTS.LEVEL_UP, { newLevel });
+          }
+        } catch (error) {
+          console.error("Failed to update child profile in gamification engine:", error);
+        }
+      }
+    }
   }
 }
 

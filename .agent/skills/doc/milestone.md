@@ -55,11 +55,12 @@ Setiap komponen dan halaman akan dibangun dengan status dummy/mock data di `/ux-
 - [x] **Umum**: 404, Under Construction, Error Boundary, Showcase Komponen.
 
 ## Stage 4: Integrasi & Backend (Logika Bisnis)
-- [ ] Backend: Firebase Auth, Firestore Config, Skema Word Bank.
-- [ ] Modul Word Bank: Sistem Generator untuk memotong kata berdasarkan level secara dinamis.
-- [ ] Integrator: Memindahkan komponen dari `/ux-lab` ke `/main` dan menghubungkannya dengan State & Backend.
-- [ ] Gamification Engine: Kalkulasi Skor & Bintang otomatis, Level UP, Trigger Reward.
-- [ ] Parent Control Implementation: Lock mekanisme di semua layer aplikasi jika PIN belum valid.
+- [x] Backend: Firebase Auth, Firestore Config, Skema Word Bank.
+- [x] Modul Word Bank: Sistem Generator untuk memotong kata berdasarkan level secara dinamis.
+- [x] Integrator: Memindahkan halaman utama dari `/ux-lab` ke `/main` dan menghubungkannya dengan State & Backend (Dashboard, Peta, Quiz).
+- [x] Gamification Engine: Kalkulasi Skor & Bintang otomatis, Level UP, Trigger Reward via Event Bus & Firestore.
+- [x] Parent Control Implementation: Lock mekanisme di auth page `/admin` jika tidak terautentikasi dan pembuatan Dashboard Admin.
+- [ ] Integrator: Refaktor sisa Mini Games ke layer `/main/` dengan Engine.
 - [ ] QA & Testing: Integrasi Event Bus dengan UI dan pengujian End-to-End.
 
 ## Stage 5: Deployment

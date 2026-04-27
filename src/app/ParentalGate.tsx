@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useParentAuthStore } from '../core/state/parent-store';
 
 export function ParentalGate({ children, onCancel }: { children: React.ReactNode, onCancel?: () => void }) {
-  const { isAuthenticated, login } = useParentAuthStore();
+  const { isAuthenticated, loginPin } = useParentAuthStore();
   const [pin, setPin] = useState('');
   const [error, setError] = useState('');
 
@@ -14,7 +14,7 @@ export function ParentalGate({ children, onCancel }: { children: React.ReactNode
     e.preventDefault();
     // Default PIN is 1234 for testing purposes
     if (pin === '1234') {
-      login(pin);
+      loginPin(pin);
     } else {
       setError('PIN salah!');
       setPin('');
