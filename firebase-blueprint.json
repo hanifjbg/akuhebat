@@ -1,0 +1,45 @@
+{
+  "entities": {
+    "WordBankEntry": {
+      "title": "WordBankEntry",
+      "description": "Represents a single word entry in the word bank",
+      "type": "object",
+      "properties": {
+        "text": { "type": "string", "description": "The actual word, e.g., 'pesawat'" },
+        "syllables": { "type": "array", "items": { "type": "string" }, "description": "['pe', 'sa', 'wat']" },
+        "letters": { "type": "array", "items": { "type": "string" }, "description": "['p','e','s','a','w','a','t']" },
+        "imageUrl": { "type": "string" },
+        "category": { "type": "string" },
+        "level": { "type": "number", "description": "Base difficulty level" },
+        "createdAt": { "type": "number", "description": "Timestamp" },
+        "updatedAt": { "type": "number", "description": "Timestamp" }
+      },
+      "required": ["text", "syllables", "letters", "level", "createdAt"]
+    },
+    "ChildProfile": {
+      "title": "ChildProfile",
+      "description": "Child's gamification progress",
+      "type": "object",
+      "properties": {
+        "parentId": { "type": "string" },
+        "name": { "type": "string" },
+        "avatarUrl": { "type": "string" },
+        "level": { "type": "number" },
+        "exp": { "type": "number" },
+        "stars": { "type": "number" },
+        "createdAt": { "type": "number", "description": "Timestamp" }
+      },
+      "required": ["parentId", "name", "level", "exp", "stars"]
+    }
+  },
+  "firestore": {
+    "/word-bank/{wordId}": {
+      "schema": { "$ref": "#/entities/WordBankEntry" },
+      "description": "Global word bank for quizzes. Open read, admin write."
+    },
+    "/parents/{parentId}/children/{childId}": {
+      "schema": { "$ref": "#/entities/ChildProfile" },
+      "description": "Child profiles, secured by parent owner."
+    }
+  }
+}
