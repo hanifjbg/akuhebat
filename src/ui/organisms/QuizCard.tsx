@@ -7,6 +7,7 @@ import { cn } from "../../shared/utils"
 
 export interface QuizCardProps {
   question: string
+  blanks?: string[]
   imageUrl?: string
   options: { id: string; text: string; imageSrc?: string }[]
   selectedOptionId?: string
@@ -19,6 +20,7 @@ export interface QuizCardProps {
 
 export function QuizCard({ 
   question, 
+  blanks,
   imageUrl, 
   options, 
   selectedOptionId, 
@@ -57,6 +59,23 @@ export function QuizCard({
           </div>
         )}
         <h2 className="text-2xl md:text-3xl font-bold text-slate-800 dark:text-slate-100 leading-snug shrink-0">{question}</h2>
+        {blanks && blanks.length > 0 && (
+          <div className="flex flex-wrap items-center justify-center gap-2 mt-4">
+            {blanks.map((b, i) => (
+              <div 
+                key={i} 
+                className={cn(
+                  "flex items-center justify-center font-black text-3xl sm:text-4xl rounded-clay-sm w-12 h-14 sm:w-16 sm:h-20 drop-shadow-sm",
+                  b.includes("_") 
+                    ? "bg-slate-200 dark:bg-slate-700/50 text-slate-400 dark:text-slate-600 shadow-inner border-2 border-slate-300 dark:border-slate-800" 
+                    : "bg-white dark:bg-slate-800 text-slate-800 dark:text-white shadow-clay-sm border-2 border-slate-100 dark:border-slate-700"
+                )}
+              >
+                {b.includes("_") ? "?" : b}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Options Grid */}

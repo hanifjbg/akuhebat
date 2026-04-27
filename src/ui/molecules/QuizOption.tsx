@@ -28,7 +28,7 @@ export function QuizOption({ text, imageSrc, status = "idle", className, ...prop
         className
       )}
       disabled={status !== "idle"}
-      {...props}
+      {...(props as any)}
     >
       {imageSrc && (
         <div className="w-20 h-20 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden shadow-inner flex items-center justify-center p-2 mb-2 border-2 border-white dark:border-slate-600">

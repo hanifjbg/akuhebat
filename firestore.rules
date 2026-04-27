@@ -6,7 +6,8 @@ service cloud.firestore {
     function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
     function incoming() { return request.resource.data; }
     function existing() { return resource.data; }
-    function isSignedIn() { return request.auth != null; }
+    function isAnonymous() { return request.auth != null && request.auth.token.firebase.sign_in_provider == 'anonymous'; }
+    function isSignedIn() { return request.auth != null && (request.auth.token.email_verified == true || isAnonymous()); }
     function isOwner(parentId) { return isSignedIn() && request.auth.uid == parentId; }
     function isAdmin() { return isSignedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)); }
     
@@ -20,20 +21,24 @@ service cloud.firestore {
     }
     
     match /word-bank/{wordId} {
-      allow read: if isSignedIn();
+      allow read: if true;
       allow create: if isAdmin() && isValidId(wordId) && isValidWordBankEntry(incoming());
       allow update: if isAdmin() && isValidId(wordId) && isValidWordBankEntry(incoming());
       allow delete: if isAdmin();
     }
     
     function isValidChildProfile(data) {
-       return data.keys().hasAll(['parentId', 'name', 'level', 'exp', 'stars', 'createdAt']) &&
+       return data.keys().hasAll(['id', 'parentId', 'name', 'avatarUrl', 'level', 'exp', 'stars', 'createdAt']) &&
+              data.id is string && data.id.size() <= 128 &&
               data.parentId is string && data.parentId.size() <= 128 &&
               data.name is string && data.name.size() > 0 && data.name.size() <= 50 &&
+              data.avatarUrl is string && data.avatarUrl.size() <= 1000 &&
               data.level is number && data.level >= 1 && data.level <= 100 &&
               data.exp is number && data.exp >= 0 &&
               data.stars is number && data.stars >= 0 &&
-              data.createdAt is number;
+              data.createdAt is number &&
+              (!data.keys().hasAny(['unlockedModuleIds']) || data.unlockedModuleIds is list) && 
+              (!data.keys().hasAny(['completedLessonIds']) || data.completedLessonIds is list);
     }
     
     match /parents/{parentId}/children/{childId} {
@@ -41,6 +46,16 @@ service cloud.firestore {
       allow create: if isOwner(parentId) && isValidId(childId) && isValidChildProfile(incoming()) && incoming().parentId == parentId;
       allow update: if isOwner(parentId) && isValidId(childId) && isValidChildProfile(incoming()) && incoming().parentId == existing().parentId;
       allow delete: if isOwner(parentId);
+    }
+
+    match /learning-modules/{moduleId} {
+       allow read: if true;
+       allow write: if isSignedIn(); // Temporarily allow signed in users to seed
+       
+       match /lessons/{lessonId} {
+          allow read: if true;
+          allow write: if isSignedIn();
+       }
     }
   }
 }

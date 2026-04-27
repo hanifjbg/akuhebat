@@ -7,6 +7,7 @@ import { Trophy, Star, RefreshCcw, ArrowRight } from "lucide-react"
 
 export interface QuizReportProps {
   score: number // 10 to 100
+  totalQuestions?: number
   stars: number // 0 to 5
   expGained: number
   onRetry: () => void

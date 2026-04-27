@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate, Routes, Route, Outlet } from 'react-router-dom';
+import { createBrowserRouter, Navigate, Routes, Route, Outlet, useRouteError } from 'react-router-dom';
 import { useEffect } from 'react';
 import { UxLabIndex } from '../pages/ux-lab/UxLabIndex';
 import { LoginPage } from '../pages/ux-lab/auth/LoginPage';
@@ -22,8 +22,11 @@ import { setupAuthListener } from '../modules/auth/index';
 import { listenToChildProfiles } from '../modules/auth/kids-profiles';
 import { useParentAuthStore } from '../core/state/parent-store';
 
+import { useLocation } from 'react-router-dom';
+
 const MainAppWrapper = () => {
   const { firebaseUser } = useParentAuthStore();
+  const location = useLocation();
   
   useEffect(() => {
     const unsubscribeAuth = setupAuthListener();
@@ -37,7 +40,11 @@ const MainAppWrapper = () => {
     }
   }, [firebaseUser]);
 
-  return <Outlet />;
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Outlet />
+    </div>
+  );
 };
 
 const UxLabLayout = () => (
@@ -60,18 +67,40 @@ const UxLabLayout = () => (
   </Routes>
 );
 
+const RootErrorBoundary = () => {
+  const error = useRouteError() as any;
+  console.error("Router error:", error);
+  return (
+    <div style={{minHeight: '100vh', background: 'red', color: 'white', padding: '50px', zIndex: 999999, position: 'relative'}}>
+      <h1 style={{fontSize: '30px', fontWeight: 'bold'}}>App Router Error</h1>
+      <pre style={{marginTop: '20px', background: 'black', padding: '20px', whiteSpace: 'pre-wrap'}}>{error?.message || String(error)}</pre>
+      <pre style={{marginTop: '20px', background: 'black', padding: '20px', whiteSpace: 'pre-wrap', fontSize: '12px'}}>{error?.stack}</pre>
+    </div>
+  );
+};
+
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navigate to="/main" replace />
+    element: <Navigate to="/main" replace />,
+    errorElement: <RootErrorBoundary />
   },
   {
     path: '/main',
     element: <MainAppWrapper />,
+    errorElement: <RootErrorBoundary />,
     children: [
+      {
+        path: 'auth',
+        element: <KidsAuthLayout />
+      },
       {
         path: 'auth/*',
         element: <KidsAuthLayout />
+      },
+      {
+        path: '',
+        element: <MainLayout />
       },
       {
         path: '*',
@@ -81,10 +110,20 @@ export const router = createBrowserRouter([
   },
   {
     path: '/admin/*',
-    element: <AdminLayout />
+    element: <AdminLayout />,
+    errorElement: <RootErrorBoundary />
   },
   {
     path: '/ux-lab/*',
-    element: <UxLabLayout />
+    element: <UxLabLayout />,
+    errorElement: <RootErrorBoundary />
+  },
+  {
+    path: '*',
+    element: (
+      <div style={{minHeight: '100vh', background: 'white', color: 'red', padding: '20px'}}>
+        <h1>404 Not Found at top level!</h1>
+      </div>
+    )
   }
 ]);

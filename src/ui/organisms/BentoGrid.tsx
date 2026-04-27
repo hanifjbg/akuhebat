@@ -2,6 +2,8 @@ import * as React from "react"
 import { motion } from "framer-motion"
 import { cn } from "../../shared/utils"
 
+import { Lock } from "lucide-react"
+
 export interface BentoCardProps {
   className?: string;
   children: React.ReactNode;
@@ -9,6 +11,8 @@ export interface BentoCardProps {
   rowSpan?: 1 | 2;
   colorVariant?: 'default' | 'primary' | 'secondary' | 'accent' | 'warning' | 'success';
   onClick?: () => void;
+  overlapElement?: React.ReactNode;
+  isLocked?: boolean;
 }
 
 export function BentoCard({ 
@@ -17,10 +21,11 @@ export function BentoCard({
   colSpan = 1, 
   rowSpan = 1, 
   colorVariant = 'default',
-  onClick
+  onClick,
+  isLocked
 }: BentoCardProps) {
   
-  const baseClasses = "relative rounded-[2rem] transition-transform duration-300 w-full";
+  const baseClasses = "relative rounded-[2rem] transition-all duration-300 w-full";
   
   const heightClasses = {
     row: {
@@ -50,8 +55,8 @@ export function BentoCard({
     }
   };
 
-  const Component = onClick ? motion.button : motion.div;
-  const interactiveProps = onClick ? {
+  const Component = (onClick && !isLocked) ? motion.button : motion.div;
+  const interactiveProps = (onClick && !isLocked) ? {
     whileHover: { scale: 1.02, y: -2 },
     whileTap: { scale: 0.98, y: 4 },
     onClick
@@ -63,19 +68,29 @@ export function BentoCard({
       spanClasses.col[colSpan],
       spanClasses.row[rowSpan],
       heightClasses.row[rowSpan],
-      onClick ? "cursor-pointer" : ""
+      (onClick && !isLocked) ? "cursor-pointer" : ""
     )}>
        <Component
          className={cn(
            baseClasses,
            "h-full flex flex-col overflow-hidden",
            colorClasses[colorVariant],
-           onClick ? "text-left focus:outline-none focus:ring-4 focus:ring-primary/30" : "",
+           (onClick && !isLocked) ? "text-left focus:outline-none focus:ring-4 focus:ring-primary/30" : "",
+           isLocked && "opacity-60 saturate-50 grayscale-[30%]",
            className
          )}
          {...interactiveProps}
        >
          {children}
+
+         {isLocked && (
+           <div className="absolute inset-0 bg-slate-900/10 backdrop-blur-[1px] flex items-center justify-center z-50">
+              <div className="bg-slate-800/80 text-white px-3 py-1 rounded-full flex items-center gap-1.5 shadow-lg scale-90 sm:scale-100">
+                <Lock className="w-4 h-4" />
+                <span className="text-[10px] font-black uppercase tracking-wider">Locked</span>
+              </div>
+           </div>
+         )}
        </Component>
     </div>
   )

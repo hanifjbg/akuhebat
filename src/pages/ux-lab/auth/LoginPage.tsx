@@ -1,5 +1,6 @@
 import * as React from "react"
 import { motion } from "framer-motion"
+import { useNavigate } from "react-router-dom"
 import { MainLayout } from "../../../ui/templates/MainLayout"
 import { Button, Divider } from "../../../ui/atoms"
 import { useSimulatorStore } from "../../../shared/store/simulator"
@@ -7,13 +8,14 @@ import { Rocket, Gamepad2 } from "lucide-react"
 
 export function LoginPage() {
   const { globalState } = useSimulatorStore();
+  const navigate = useNavigate();
 
   return (
     <MainLayout showTopBar={false} showBottomBar={false}>
       <div className="flex-1 w-full h-full flex flex-col items-center justify-center p-6 pb-20 relative">
         
         {/* Decorative Background */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
           <div className="absolute -top-[10%] -left-[10%] w-[50%] h-[50%] rounded-full bg-blue-100/50 dark:bg-blue-900/20 blur-3xl" />
           <div className="absolute top-[20%] -right-[10%] w-[60%] h-[60%] rounded-full bg-yellow-100/50 dark:bg-yellow-900/20 blur-3xl" />
           <div className="absolute -bottom-[10%] left-[20%] w-[70%] h-[70%] rounded-full bg-pink-100/50 dark:bg-pink-900/20 blur-3xl" />
@@ -22,10 +24,9 @@ export function LoginPage() {
         <motion.div 
           initial={{ scale: 0.9, opacity: 0, y: 20 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
-          className="w-full max-w-sm mt-16 bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-[3rem] shadow-[0_20px_60px_-15px_rgba(212,196,175,0.6)] dark:shadow-none border-[6px] border-white dark:border-slate-700 p-8 pt-16 relative z-10 flex flex-col items-center"
+          className="w-full max-w-sm mt-16 bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-[3rem] shadow-[0_20px_60px_-15px_rgba(212,196,175,0.6)] dark:shadow-none border-[6px] border-white/50 dark:border-slate-700/50 p-8 pt-16 relative z-10 flex flex-col items-center"
         >
           {/* OVERLAPPING / BREAKOUT LOGO */}
-          {/* Note: This logo can be driven by admin panel settings later by wrapping it in a global config state */}
           <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-48 h-48 flex items-center justify-center z-20">
              <img src="/logo.webp" alt="Aku Hebat Logo" className="w-full h-full object-contain filter drop-shadow-xl hover:scale-105 transition-transform duration-300" />
           </div>
@@ -38,7 +39,7 @@ export function LoginPage() {
             <Button 
               variant="outline" 
               size="lg" 
-              className="w-full rounded-2xl h-14 text-lg border-2 shadow-clay-sm" 
+              className="w-full rounded-2xl h-14 text-lg border-2 shadow-clay-sm bg-white/80 backdrop-blur" 
               isLoading={globalState === 'loading'}
             >
               <svg className="w-6 h-6 mr-3" viewBox="0 0 24 24">
@@ -59,7 +60,10 @@ export function LoginPage() {
           <Button 
             variant="outline" 
             size="lg" 
-            className="w-full rounded-2xl h-14 text-lg border-2"
+            className="w-full rounded-2xl h-14 text-lg border-2 bg-white/80 backdrop-blur"
+            onClick={() => {
+              navigate('/ux-lab/dashboard');
+            }}
           >
             <Gamepad2 className="w-6 h-6 mr-2 text-slate-500" />
             Main sebagai Tamu

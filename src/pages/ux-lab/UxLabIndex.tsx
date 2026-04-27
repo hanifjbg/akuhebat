@@ -68,7 +68,7 @@ export function UxLabIndex() {
           <h3 className="text-lg font-semibold text-slate-600 dark:text-slate-200 border-b dark:border-slate-700 pb-2">Spinners</h3>
           <div className="flex flex-wrap gap-8 items-end p-4 bg-slate-50 dark:bg-slate-800/80 rounded-clay-sm border border-slate-100 dark:border-slate-700 shadow-inner">
             <Spinner size="sm" color="primary" />
-            <Spinner size="md" color="secondary" />
+            <Spinner size="md" color="white" />
             <Spinner size="lg" color="primary" />
           </div>
         </div>

@@ -11,10 +11,36 @@
         "imageUrl": { "type": "string" },
         "category": { "type": "string" },
         "level": { "type": "number", "description": "Base difficulty level" },
-        "createdAt": { "type": "number", "description": "Timestamp" },
-        "updatedAt": { "type": "number", "description": "Timestamp" }
+        "lessonId": { "type": "string", "description": "Optional link to a specific lesson" },
+        "createdAt": { "type": "number", "description": "Timestamp" }
       },
       "required": ["text", "syllables", "letters", "level", "createdAt"]
+    },
+    "LearningModule": {
+      "title": "LearningModule",
+      "description": "A top-level category of learning (e.g., Module 1: Vowels)",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "order": { "type": "number" },
+        "description": { "type": "string" },
+        "requiredLevel": { "type": "number" },
+        "icon": { "type": "string" }
+      },
+      "required": ["title", "order", "requiredLevel"]
+    },
+    "Lesson": {
+      "title": "Lesson",
+      "description": "A specific lesson within a module",
+      "type": "object",
+      "properties": {
+        "moduleId": { "type": "string" },
+        "title": { "type": "string" },
+        "order": { "type": "number" },
+        "content": { "type": "string" },
+        "isFree": { "type": "boolean" }
+      },
+      "required": ["moduleId", "title", "order"]
     },
     "ChildProfile": {
       "title": "ChildProfile",
@@ -27,6 +53,8 @@
         "level": { "type": "number" },
         "exp": { "type": "number" },
         "stars": { "type": "number" },
+        "unlockedModuleIds": { "type": "array", "items": { "type": "string" } },
+        "completedLessonIds": { "type": "array", "items": { "type": "string" } },
         "createdAt": { "type": "number", "description": "Timestamp" }
       },
       "required": ["parentId", "name", "level", "exp", "stars"]
@@ -35,11 +63,19 @@
   "firestore": {
     "/word-bank/{wordId}": {
       "schema": { "$ref": "#/entities/WordBankEntry" },
-      "description": "Global word bank for quizzes. Open read, admin write."
+      "description": "Global word bank for quizzes."
+    },
+    "/learning-modules/{moduleId}": {
+      "schema": { "$ref": "#/entities/LearningModule" },
+      "description": "Standardized learning modules."
+    },
+    "/learning-modules/{moduleId}/lessons/{lessonId}": {
+      "schema": { "$ref": "#/entities/Lesson" },
+      "description": "Lessons within modules."
     },
     "/parents/{parentId}/children/{childId}": {
       "schema": { "$ref": "#/entities/ChildProfile" },
-      "description": "Child profiles, secured by parent owner."
+      "description": "Child profiles and their learning progress."
     }
   }
 }

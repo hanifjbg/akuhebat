@@ -5,13 +5,18 @@ import { useParentAuthStore } from '../../core/state/parent-store';
 import { DashboardPage } from './learning/DashboardPage';
 import { MapPage } from './learning/MapPage';
 import { QuizPage } from './learning/QuizPage';
+import { ModuleSelectionPage } from './learning/ModuleSelectionPage';
+import { LessonListPage } from './learning/LessonListPage';
+import { LessonContentPage } from './learning/LessonContentPage';
+import { LeaderboardPage } from './social/LeaderboardPage';
+import { ProfilePage } from './social/ProfilePage';
+import { SettingsPage } from './settings/SettingsPage';
 
 export function MainLayout() {
   const { activeChildId } = useKidsSessionStore();
-  const { children, isAuthenticated } = useParentAuthStore();
-  
-  // If not authenticated or no active child, redirect to Auth/Select Child
-  if (!isAuthenticated || !activeChildId) {
+  const { children, firebaseUser } = useParentAuthStore();
+
+  if (!firebaseUser || !activeChildId) {
     return <Navigate to="/main/auth" replace />;
   }
 
@@ -26,7 +31,13 @@ export function MainLayout() {
       <Routes>
         <Route path="dashboard" element={<DashboardPage child={activeChild} />} />
         <Route path="map" element={<MapPage child={activeChild} />} />
+        <Route path="learning" element={<ModuleSelectionPage child={activeChild} />} />
+        <Route path="learning/module/:moduleId" element={<LessonListPage child={activeChild} />} />
+        <Route path="learning/lesson/:lessonId" element={<LessonContentPage child={activeChild} />} />
         <Route path="quiz" element={<QuizPage child={activeChild} />} />
+        <Route path="leaderboard" element={<LeaderboardPage child={activeChild} />} />
+        <Route path="profile" element={<ProfilePage child={activeChild} />} />
+        <Route path="settings" element={<SettingsPage child={activeChild} />} />
         <Route path="*" element={<Navigate to="dashboard" replace />} />
       </Routes>
     </div>

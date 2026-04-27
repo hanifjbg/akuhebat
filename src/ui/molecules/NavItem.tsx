@@ -25,7 +25,7 @@ export function NavItem({ icon: Icon, label, isActive, variant = "horizontal", c
         !isActive && "bg-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200",
         className
       )}
-      {...props}
+      {...(props as any)}
     >
       {isActive && variant === "vertical" && (
         <motion.div 

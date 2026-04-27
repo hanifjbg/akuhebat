@@ -36,7 +36,7 @@ export function FriendsPage() {
 
         <SearchBar 
           placeholder="Cari teman..." 
-          onSearch={() => {}} 
+          onChange={(e) => {}} 
           className="mb-8"
         />
 
@@ -56,7 +56,7 @@ export function FriendsPage() {
               <div className="text-center py-12 border-4 border-dashed border-slate-200 dark:border-slate-700 rounded-clay-lg">
                 <Users className="w-12 h-12 text-slate-300 mx-auto mb-4" />
                 <p className="font-bold text-slate-500 mb-4">Kamu belum punya teman nih!</p>
-                <Button variant="primary">Tambah Teman</Button>
+                <Button variant="default">Tambah Teman</Button>
               </div>
             ) : globalState === 'error' ? (
               <div className="text-center py-12 font-bold text-red-500">Gagal memuat daftar teman.</div>

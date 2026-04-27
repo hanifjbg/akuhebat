@@ -60,7 +60,7 @@ export function FriendCard({ name, avatarSrc, level, status, relation, onChallen
 
       <div className="flex gap-2">
         {relation === "stranger" && onAddFriend && (
-          <Button size="icon" variant="primary" onClick={onAddFriend} className="rounded-full shadow-clay-sm">
+          <Button size="icon" variant="default" onClick={onAddFriend} className="rounded-full shadow-clay-sm">
             <Plus className="w-4 h-4" />
           </Button>
         )}

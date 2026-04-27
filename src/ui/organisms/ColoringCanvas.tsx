@@ -61,7 +61,7 @@ export function ColoringCanvas({ svgContent, colors, selectedColor, onSelectColo
             <Eraser className="w-5 h-5" />
           </Button>
           {onSave && (
-            <Button size="icon" variant="primary" onClick={onSave} title="Simpan Karya" className="rounded-full">
+            <Button size="icon" variant="default" onClick={onSave} title="Simpan Karya" className="rounded-full">
               <Download className="w-5 h-5" />
             </Button>
           )}

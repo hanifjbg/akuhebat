@@ -12,6 +12,8 @@ export interface TopBarProps {
   level?: number
   greeting?: string
   title?: string
+  showBackButton?: boolean
+  onBackClick?: () => void
   onAvatarClick?: () => void
   onStarsClick?: () => void
   className?: string
@@ -26,7 +28,7 @@ function getDynamicGreeting() {
   return "Selamat Malam,";
 }
 
-export function TopBar({ userName = "Si Anak Hebat!", avatarSrc, stars = 0, level = 1, greeting, title, onAvatarClick, onStarsClick, className, rightElement }: TopBarProps) {
+export function TopBar({ userName = "Si Anak Hebat!", avatarSrc, stars = 0, level = 1, greeting, title, showBackButton, onBackClick, onAvatarClick, onStarsClick, className, rightElement }: TopBarProps) {
   const [currentGreeting, setCurrentGreeting] = React.useState(greeting || getDynamicGreeting());
 
   React.useEffect(() => {
@@ -47,16 +49,22 @@ export function TopBar({ userName = "Si Anak Hebat!", avatarSrc, stars = 0, leve
         )}
       >
       <div className="flex items-center gap-3 w-1/4">
-        <button onClick={onAvatarClick} className="relative group focus:outline-none shrink-0">
-          <Avatar className="w-12 h-12 border-2 border-white dark:border-slate-700 shadow-clay-sm transition-transform group-hover:scale-105 group-active:scale-95">
-            <AvatarImage src={avatarSrc} />
-            <AvatarFallback>{userName.charAt(0)}</AvatarFallback>
-          </Avatar>
-          <Badge className="absolute -bottom-2 -right-2 font-bold shadow-sm" variant="accent">
-            Lv{level}
-          </Badge>
-        </button>
-        {!title && (
+        {showBackButton ? (
+          <button onClick={onBackClick} className="w-12 h-12 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center border-2 border-slate-200 dark:border-slate-700 shadow-clay-sm hover:scale-105 transition-transform">
+             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-slate-700 dark:text-slate-300"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+        ) : (
+          <button onClick={onAvatarClick} className="relative group focus:outline-none shrink-0">
+            <Avatar className="w-12 h-12 border-2 border-white dark:border-slate-700 shadow-clay-sm transition-transform group-hover:scale-105 group-active:scale-95">
+              <AvatarImage src={avatarSrc} />
+              <AvatarFallback>{userName.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <Badge className="absolute -bottom-2 -right-2 font-bold shadow-sm" variant="accent">
+              Lv{level}
+            </Badge>
+          </button>
+        )}
+        {!title && !showBackButton && (
           <div className="flex flex-col">
             <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400 drop-shadow-sm">{currentGreeting}</p>
             <h2 className="font-black text-sm sm:text-base text-slate-800 dark:text-slate-100 drop-shadow-md leading-tight">{userName}</h2>

@@ -38,7 +38,7 @@ export function StoryBook({ title, pages, currentPage, isPlaying, onNextPage, on
         <h2 className="text-xl md:text-2xl font-bold text-amber-900 dark:text-amber-100 font-serif">{title}</h2>
         <div className="flex items-center gap-3">
           <span className="font-bold text-amber-700/50 dark:text-slate-400">Hal {currentPage + 1}/{pages.length}</span>
-          <Button size="icon" variant={isPlaying ? "accent" : "primary"} onClick={onTogglePlay} className="rounded-full shadow-clay-sm">
+          <Button size="icon" variant={isPlaying ? "accent" : "default"} onClick={onTogglePlay} className="rounded-full shadow-clay-sm">
             {isPlaying ? <Pause className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
           </Button>
         </div>
@@ -96,7 +96,7 @@ export function StoryBook({ title, pages, currentPage, isPlaying, onNextPage, on
           <ChevronLeft className="w-5 h-5" />
           Mundur
         </Button>
-        <Button size="lg" variant="primary" onClick={onNextPage} className="w-32 flex gap-2" disabled={isLast}>
+        <Button size="lg" variant="default" onClick={onNextPage} className="w-32 flex gap-2" disabled={isLast}>
           Lanjut
           <ChevronRight className="w-5 h-5" />
         </Button>

@@ -10,6 +10,8 @@ export interface ChildProfile {
   level: number;
   exp: number;
   stars: number;
+  unlockedModuleIds?: string[];
+  completedLessonIds?: string[];
   createdAt: number;
 }
 

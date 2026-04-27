@@ -38,7 +38,8 @@ export function MapPage() {
 
   return (
     <MainLayout 
-      activeTab="main"
+      activeTab="play"
+      bgClassName="bg-sky-200 dark:bg-slate-900"
       topBarProps={{
         userName: "HANIF",
         title: "Pulau Kata-Kata",
@@ -46,9 +47,14 @@ export function MapPage() {
         rightElement: <MapTopRight />
       }}
     >
-      <div className="flex-1 w-full h-full pb-32 flex flex-col pt-4 overflow-y-auto overflow-x-hidden no-scrollbar">
-
-        <div className="flex-1 flex flex-col relative w-full h-full">
+      <div className="flex-1 w-full pb-32 flex flex-col pt-4 relative">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+          <div className="absolute top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-white/40 dark:bg-slate-800/20 blur-3xl" />
+          <div className="absolute top-[40%] -right-[20%] w-[50%] h-[50%] rounded-full bg-white/50 dark:bg-slate-800/30 blur-3xl" />
+          <div className="absolute bottom-[10%] left-[20%] w-[60%] h-[60%] rounded-full bg-white/40 dark:bg-slate-800/20 blur-3xl" />
+        </div>
+        
+        <div className="relative z-10 flex-1 flex flex-col w-full h-full">
           {globalState === 'loading' ? (
             <div className="flex-1 flex flex-col items-center justify-center gap-4">
               <Spinner size="lg" />

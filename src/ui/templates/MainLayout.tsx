@@ -1,5 +1,6 @@
 import * as React from "react"
-import { TopBar } from "../organisms/TopBar"
+import { useNavigate } from "react-router-dom"
+import { TopBar, TopBarProps } from "../organisms/TopBar"
 import { BottomBar } from "../organisms/BottomBar"
 import { cn } from "../../shared/utils"
 
@@ -9,13 +10,9 @@ export interface MainLayoutProps {
   showBottomBar?: boolean
   activeTab?: "home" | "play" | "profile" | "leaderboard" | "settings"
   onTabChange?: (tab: any) => void
-  topBarProps?: {
-    userName: string
-    avatarSrc?: string
-    stars: number
-    level: number
-  }
+  topBarProps?: Omit<TopBarProps, 'className'>
   className?: string
+  bgClassName?: string
 }
 
 export function MainLayout({ 
@@ -25,10 +22,23 @@ export function MainLayout({
   activeTab = "home",
   onTabChange,
   topBarProps = { userName: "Anak Hebat", stars: 0, level: 1 },
-  className 
+  className,
+  bgClassName
 }: MainLayoutProps) {
+  const navigate = useNavigate();
+
+  const handleTabChange = (tab: string) => {
+    if (onTabChange) {
+      onTabChange(tab);
+    } else {
+      if (tab === "home") navigate("/main/dashboard");
+      else if (tab === "play") navigate("/main/map");
+      else navigate(`/main/${tab}`);
+    }
+  }
+
   return (
-    <div className="fixed inset-0 w-[100dvw] h-[100dvh] overflow-hidden">
+    <div className={cn("fixed inset-0 w-[100dvw] h-[100dvh] overflow-hidden", bgClassName)}>
       {showTopBar && <TopBar {...topBarProps} />}
       
       <main className={cn(
@@ -51,7 +61,7 @@ export function MainLayout({
       {showBottomBar && (
         <BottomBar 
           activeTab={activeTab} 
-          onTabChange={onTabChange || (() => {})} 
+          onTabChange={handleTabChange} 
         />
       )}
     </div>

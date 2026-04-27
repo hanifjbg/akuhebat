@@ -73,7 +73,7 @@ export function ProfileCard({ userName, avatarSrc, level, exp, nextLevelExp, tot
               <span className="text-slate-600 dark:text-slate-300">Level {level}</span>
               <span className="text-slate-600 dark:text-slate-300">{exp} / {nextLevelExp} XP</span>
             </div>
-            <ProgressBar progress={expPercentage} color="accent" className="h-3" />
+            <ProgressBar value={expPercentage} indicatorColor="bg-accent" />
             <p className="text-xs text-center text-slate-500 dark:text-slate-400 mt-3 font-medium">Bermain lagi untuk naik level!</p>
           </div>
         </div>

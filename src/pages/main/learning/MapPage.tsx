@@ -10,21 +10,36 @@ export function MapPage({ child }: { child: ChildProfile }) {
   return (
     <MainLayout 
       activeTab="play"
+      bgClassName="bg-sky-200 dark:bg-slate-900"
       topBarProps={{
+        title: "Peta Misi",
         userName: child.name,
         avatarSrc: child.avatarUrl,
         showBackButton: true,
-        onBack: () => navigate("/main/dashboard")
+        onBackClick: () => navigate("/main/dashboard")
       }}
     >
-      <div className="flex-1 w-full h-full relative overflow-hidden bg-sky-200 dark:bg-slate-900">
-        <LevelMap 
-          currentLevel={child.level}
-          onSelectLevel={(levelId) => {
-             // Just navigating to global quiz for now
-             navigate(`/main/quiz`);
-          }} 
-        />
+      <div className="flex-1 w-full relative pb-32 pt-4">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+          <div className="absolute top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-white/40 dark:bg-slate-800/20 blur-3xl" />
+          <div className="absolute top-[40%] -right-[20%] w-[50%] h-[50%] rounded-full bg-white/50 dark:bg-slate-800/30 blur-3xl" />
+          <div className="absolute bottom-[10%] left-[20%] w-[60%] h-[60%] rounded-full bg-white/40 dark:bg-slate-800/20 blur-3xl" />
+        </div>
+
+        <div className="relative z-10 w-full h-full">
+          <LevelMap 
+            levels={[
+              { id: "lvl-1", number: 1, status: child.level > 1 ? "completed" : child.level === 1 ? "current" : "locked", stars: 3 },
+              { id: "lvl-2", number: 2, status: child.level > 2 ? "completed" : child.level === 2 ? "current" : "locked", stars: child.level > 2 ? 3 : 0 },
+              { id: "lvl-3", number: 3, status: child.level > 3 ? "completed" : child.level === 3 ? "current" : "locked", stars: 0 },
+              { id: "lvl-4", number: 4, status: child.level > 4 ? "completed" : child.level === 4 ? "current" : "locked", stars: 0 },
+              { id: "lvl-5", number: 5, status: child.level > 5 ? "completed" : child.level === 5 ? "current" : "locked", stars: 0 },
+            ]}
+            onSelectLevel={(levelObj) => {
+               navigate(`/main/quiz`);
+            }} 
+          />
+        </div>
       </div>
     </MainLayout>
   )

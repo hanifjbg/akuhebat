@@ -38,7 +38,7 @@ function Badge({ className, variant, animatePulse, ...props }: BadgeProps) {
         animate={{ scale: [1, 1.05, 1] }}
         transition={{ duration: 2, repeat: Infinity }}
         className={cn(badgeVariants({ variant }), className)}
-        {...props}
+        {...(props as any)}
       />
     )
   }

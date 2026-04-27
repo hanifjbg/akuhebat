@@ -64,7 +64,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         whileTap={computedState === "idle" && !disabled ? { scale: 0.95 } : {}}
         className={cn(buttonVariants({ variant, size, state: computedState, className }))}
         disabled={disabled || computedState === "loading"}
-        {...props}
+        {...(props as any)}
       >
         {computedState === "loading" && (
           <Spinner className="mr-2 h-4 w-4" color={variant === "outline" || variant === "ghost" ? "current" : "white"} />

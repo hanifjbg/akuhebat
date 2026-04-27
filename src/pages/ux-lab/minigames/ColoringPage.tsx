@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom"
 import { MainLayout } from "../../../ui/templates/MainLayout"
 import { ColoringCanvas } from "../../../ui/organisms/ColoringCanvas"
 import { useSimulatorStore } from "../../../shared/store/simulator"
-import { AppleSvg } from "./AppleSvg" // we'll make a dummy component
 import { X } from "lucide-react"
 
 export function ColoringPage() {

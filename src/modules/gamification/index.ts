@@ -9,7 +9,7 @@ export class GamificationEngine {
   }
 
   private initListeners() {
-    eventBus.on(EVENTS.QUIZ_COMPLETED, (payload) => {
+    eventBus.on(EVENTS.QUIZ_COMPLETED, (payload: any) => {
       this.calculateRewards(payload.score, payload.totalQuestions);
     });
   }

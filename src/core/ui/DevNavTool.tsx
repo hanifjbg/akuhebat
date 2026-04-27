@@ -1,17 +1,56 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Settings, X, Beaker, Map, Shield, Moon, Sun } from 'lucide-react';
+import { Settings, X, Beaker, Map, Shield, Moon, Sun, FastForward, Unlock } from 'lucide-react';
 import { useSimulatorStore } from '../../shared/store/simulator';
+import { useQuizSessionStore } from '../../modules/quiz-engine/store';
+import { useKidsSessionStore } from '../state/kids-store';
+import { useParentAuthStore } from '../state/parent-store';
+import { updateChildProfile } from '../../modules/auth/kids-profiles';
 
 export function DevNavTool() {
   const [isOpen, setIsOpen] = useState(false);
   const { globalState, setGlobalState, isDarkMode, toggleDarkMode } = useSimulatorStore();
 
-  // Only render in development
-  if (!import.meta.env.DEV) return null;
+  const handleBypassQuiz = () => {
+     // artificially set score to max and current index to end
+     const store = useQuizSessionStore.getState();
+     if (store.questions.length > 0) {
+       useQuizSessionStore.setState({ 
+         currentIndex: store.questions.length,
+         score: 100 
+       });
+     } else {
+        alert("Sesi Kuis belum dimulai.");
+     }
+  };
+
+  const handleLevelUp = () => {
+    // Add 1000 EXP to test gamification level up
+    import("../../core/event-bus").then(({ eventBus, EVENTS }) => {
+       eventBus.emit(EVENTS.QUIZ_COMPLETED, { score: 1000, totalQuestions: 1 });
+       alert("1000 EXP Disimulasikan! Cek Profil.");
+    });
+  };
+
+  const handleUnlockMap = async () => {
+     const { activeChildId } = useKidsSessionStore.getState();
+     const { firebaseUser } = useParentAuthStore.getState();
+     
+     if (!activeChildId || !firebaseUser) {
+        alert("Pilih profil anak dulu dari halaman Home");
+        return;
+     }
+
+     try {
+       await updateChildProfile(firebaseUser.uid, activeChildId, { level: 5 });
+       alert("Map Terbuka! Level di set ke 5.");
+     } catch (e) {
+       alert("Gagal membuka map");
+     }
+  };
 
   return (
-    <div className="fixed bottom-4 right-4 z-[9999] font-sans">
+    <div className="fixed bottom-24 right-4 z-[9999] font-sans">
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -31,6 +70,21 @@ export function DevNavTool() {
 
             <div className="space-y-4">
               <div>
+                 <h4 className="text-sm font-semibold mb-2 text-slate-500">QA Actions (Anywhere)</h4>
+                 <div className="grid grid-cols-2 gap-2 mb-4">
+                   <button onClick={handleBypassQuiz} className="px-3 py-2 text-sm bg-purple-100 text-purple-700 hover:bg-purple-200 rounded-lg flex flex-col items-center gap-1 font-bold">
+                     <FastForward className="w-4 h-4" /> Bypass Kuis
+                   </button>
+                   <button onClick={handleLevelUp} className="px-3 py-2 text-sm bg-yellow-100 text-yellow-700 hover:bg-yellow-200 rounded-lg flex flex-col items-center gap-1 font-bold">
+                     <Sun className="w-4 h-4" /> +1000 EXP
+                   </button>
+                   <button onClick={handleUnlockMap} className="col-span-2 px-3 py-2 text-sm bg-blue-100 text-blue-700 hover:bg-blue-200 rounded-lg flex items-center justify-center gap-2 font-bold">
+                     <Unlock className="w-4 h-4" /> Unlock All Map Levels
+                   </button>
+                 </div>
+              </div>
+
+              <div>
                 <h4 className="text-sm font-semibold mb-2 text-slate-500">Navigation</h4>
                 <div className="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto no-scrollbar pr-2 pb-2">
                   <a href="/main" onClick={() => setIsOpen(false)} className="px-3 py-2 text-sm bg-slate-100 hover:bg-slate-200 rounded-lg flex items-center gap-2">
@@ -49,13 +103,6 @@ export function DevNavTool() {
                   <a href="/ux-lab/learning/dashboard" onClick={() => setIsOpen(false)} className="col-span-2 px-3 py-2 text-sm bg-slate-50 hover:bg-slate-100 rounded-lg font-bold text-primary">Home Dashboard</a>
                   <a href="/ux-lab/learning/map" onClick={() => setIsOpen(false)} className="col-span-2 px-3 py-2 text-sm bg-slate-50 hover:bg-slate-100 rounded-lg">Peta Level</a>
                   <a href="/ux-lab/learning/quiz" onClick={() => setIsOpen(false)} className="col-span-2 px-3 py-2 text-sm bg-slate-50 hover:bg-slate-100 rounded-lg">Layar Kuis</a>
-                  <a href="/ux-lab/social/friends" onClick={() => setIsOpen(false)} className="col-span-2 px-3 py-2 text-sm bg-slate-50 hover:bg-slate-100 rounded-lg">Teman Mabar</a>
-                  <a href="/ux-lab/social/leaderboard" onClick={() => setIsOpen(false)} className="col-span-2 px-3 py-2 text-sm bg-slate-50 hover:bg-slate-100 rounded-lg">Papan Juara</a>
-                  <a href="/ux-lab/versus/arena" onClick={() => setIsOpen(false)} className="col-span-2 px-3 py-2 text-sm bg-slate-50 hover:bg-slate-100 rounded-lg">Arena Duel</a>
-                  <a href="/ux-lab/minigames/memory" onClick={() => setIsOpen(false)} className="col-span-2 px-3 py-2 text-sm bg-slate-50 hover:bg-slate-100 rounded-lg">Kartu Memori</a>
-                  <a href="/ux-lab/minigames/words" onClick={() => setIsOpen(false)} className="col-span-2 px-3 py-2 text-sm bg-slate-50 hover:bg-slate-100 rounded-lg">Susun Kata</a>
-                  <a href="/ux-lab/minigames/coloring" onClick={() => setIsOpen(false)} className="col-span-2 px-3 py-2 text-sm bg-slate-50 hover:bg-slate-100 rounded-lg">Mewarnai</a>
-                  <a href="/ux-lab/fullscreen/story" onClick={() => setIsOpen(false)} className="col-span-2 px-3 py-2 text-sm bg-slate-50 hover:bg-slate-100 rounded-lg">Buku Cerita</a>
                   <a href="/ux-lab/admin/dashboard" onClick={() => setIsOpen(false)} className="col-span-2 px-3 py-2 text-sm bg-orange-50 hover:bg-orange-100 text-orange-700 rounded-lg font-bold">Admin/Parent Dashboard</a>
                 </div>
               </div>

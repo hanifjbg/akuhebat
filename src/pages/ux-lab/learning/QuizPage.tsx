@@ -48,7 +48,7 @@ export function QuizPage() {
           </div>
           
           <div className="flex-1 drop-shadow-sm">
-             <ProgressBar value={step === 'quiz' ? 50 : 100} size="md" colorVariant="primary" />
+             <ProgressBar value={step === 'quiz' ? 50 : 100} indicatorColor="bg-primary" />
           </div>
 
           <button 
@@ -84,13 +84,13 @@ export function QuizPage() {
                   className="w-full flex flex-col flex-1 min-h-[400px] justify-between h-full"
                 >
                   <QuizCard
-                    question="Gambar apakah ini?"
-                    imageUrl="https://api.dicebear.com/7.x/shapes/svg?seed=apple"
+                    question="Lengkapi huruf yang hilang!"
+                    blanks={["A", "P", "_", "L"]}
                     options={[
-                      { id: "1", text: "Apel" },
-                      { id: "2", text: "Pisang" },
-                      { id: "3", text: "Jeruk" },
-                      { id: "4", text: "Mangga" }
+                      { id: "1", text: "E" },
+                      { id: "2", text: "U" },
+                      { id: "3", text: "I" },
+                      { id: "4", text: "O" }
                     ]}
                     timeLeft={15}
                     status={status}

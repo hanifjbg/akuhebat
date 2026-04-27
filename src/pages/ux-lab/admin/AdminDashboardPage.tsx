@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Settings, BarChart2, Shield, Clock, Type, BookOpen, ChevronRight, CheckCircle2 } from 'lucide-react';
-import { Switch, Slider, Select, Badge, CardHeader } from '../../../ui/molecules'; // Mocking these, some might be in atoms
+import { Select, CardHeader } from '../../../ui/molecules'; // Mocking these, some might be in atoms
 import { Button } from '../../../ui/atoms/Button';
 
 export function AdminDashboardPage() {

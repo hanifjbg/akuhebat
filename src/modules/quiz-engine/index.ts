@@ -15,18 +15,21 @@ export class QuizEngine {
    * Generates a quiz question for a specific level based on a WordBankEntry
    */
   public generateQuestion(word: WordBankEntry, level: number): QuizQuestion {
+    const letters = word.word.split('');
+    const syllables = word.syllables;
+
     if (level === 1) {
       // Level 1: Missing one letter
-      const targetLetterIndex = Math.floor(Math.random() * word.letters.length);
-      const correctAnswer = word.letters[targetLetterIndex];
+      const targetLetterIndex = Math.floor(Math.random() * letters.length);
+      const correctAnswer = letters[targetLetterIndex];
 
-      const blanks = [...word.letters];
+      const blanks = [...letters];
       blanks[targetLetterIndex] = "_";
 
-      // Options: 1 correct, 2 wrong letters
+      // Options: 1 correct, 3 wrong letters (total 4)
       const options = [correctAnswer.toUpperCase()];
       const alphabet = "abcdefghijklmnopqrstuvwxyz";
-      while (options.length < 3) {
+      while (options.length < 4) {
         const randLetter = alphabet[Math.floor(Math.random() * alphabet.length)].toUpperCase();
         if (!options.includes(randLetter) && randLetter.toLowerCase() !== correctAnswer.toLowerCase()) {
           options.push(randLetter);
@@ -47,14 +50,23 @@ export class QuizEngine {
     } 
     else if (level === 2) {
       // Level 2: Missing one syllable
-      const targetSyllableIndex = Math.floor(Math.random() * word.syllables.length);
-      const correctAnswer = word.syllables[targetSyllableIndex];
+      const targetSyllableIndex = Math.floor(Math.random() * syllables.length);
+      const correctAnswer = syllables[targetSyllableIndex];
 
-      const blanks = [...word.syllables];
+      const blanks = [...syllables];
       blanks[targetSyllableIndex] = "__";
 
       // Mock options for now
-      const options = [correctAnswer.toUpperCase(), "MA", "KU"].sort(() => Math.random() - 0.5);
+      const options = [correctAnswer.toUpperCase()];
+      const mockSyllables = ["MA", "KU", "LA", "PI", "TU", "BA", "CA", "DI", "BO"];
+      while (options.length < 4) {
+        const randSyllable = mockSyllables[Math.floor(Math.random() * mockSyllables.length)].toUpperCase();
+        if (!options.includes(randSyllable) && randSyllable.toLowerCase() !== correctAnswer.toLowerCase()) {
+          options.push(randSyllable);
+        }
+      }
+      
+      options.sort(() => Math.random() - 0.5);
 
       return {
         questionText: "Lengkapi suku kata yang hilang!",
@@ -71,9 +83,9 @@ export class QuizEngine {
       questionText: "Susun suku kata menjadi kata yang benar!",
       targetWord: word,
       type: 'arrange_syllables',
-      options: [...word.syllables].map(s => s.toUpperCase()).sort(() => Math.random() - 0.5),
-      correctAnswer: word.syllables.map(s => s.toUpperCase()),
-      blanks: Array(word.syllables.length).fill("___")
+      options: [...syllables].map(s => s.toUpperCase()).sort(() => Math.random() - 0.5),
+      correctAnswer: syllables.map(s => s.toUpperCase()),
+      blanks: Array(syllables.length).fill("___")
     };
   }
 }

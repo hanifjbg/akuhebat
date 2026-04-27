@@ -60,7 +60,7 @@ export function MaterialPage() {
           </div>
           
           <div className="flex-1 drop-shadow-sm">
-             <ProgressBar value={progress} size="md" colorVariant="primary" />
+             <ProgressBar value={progress} indicatorColor="bg-primary" />
           </div>
 
           <button 

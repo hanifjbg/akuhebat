@@ -2,7 +2,7 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './app/router';
 import { DevNavTool } from './core/ui/DevNavTool';

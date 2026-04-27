@@ -4,7 +4,7 @@ import { Settings, Star, Play, BookOpen, Music, Search, Target } from "lucide-re
 
 import { MainLayout } from "../../../ui/templates/MainLayout"
 import { BentoGrid, BentoCard } from "../../../ui/organisms/BentoGrid"
-import { ThemeSwitch, IconButton } from "../../../ui/atoms"
+import { ThemeSwitch } from "../../../ui/atoms"
 import { useSimulatorStore } from "../../../shared/store/simulator"
 
 export function DashboardPage() {

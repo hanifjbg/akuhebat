@@ -99,7 +99,7 @@ export function KaraokeScreen({
 
           <Button 
             size="lg" 
-            variant="primary" 
+            variant="default" 
             className={cn("w-16 h-16 rounded-full", isPlaying && "bg-slate-700 hover:bg-slate-600 border-slate-600")}
             onClick={onTogglePlay}
           >
