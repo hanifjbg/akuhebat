@@ -13,6 +13,7 @@ import { MemoryGamePage } from '../pages/ux-lab/minigames/MemoryGamePage';
 import { WordBuilderPage } from '../pages/ux-lab/minigames/WordBuilderPage';
 import { ColoringPage } from '../pages/ux-lab/minigames/ColoringPage';
 import { StoryTimePage } from '../pages/ux-lab/fullscreen/StoryTimePage';
+import { AdminDashboardPage } from '../pages/ux-lab/admin/AdminDashboardPage';
 
 const MainLayout = () => (
   <div className="flex items-center justify-center h-[100dvh] w-[100dvw]">
@@ -49,6 +50,7 @@ const UxLabLayout = () => (
     <Route path="minigames/words" element={<WordBuilderPage />} />
     <Route path="minigames/coloring" element={<ColoringPage />} />
     <Route path="fullscreen/story" element={<StoryTimePage />} />
+    <Route path="admin/dashboard" element={<AdminDashboardPage />} />
   </Routes>
 );
 

@@ -6,22 +6,19 @@ import { cn } from "../../shared/utils"
 import { Trophy, Star, RefreshCcw, ArrowRight } from "lucide-react"
 
 export interface QuizReportProps {
-  score: number
-  totalQuestions: number
-  stars: number // 0 to 3
+  score: number // 10 to 100
+  stars: number // 0 to 5
   expGained: number
   onRetry: () => void
   onNext: () => void
   className?: string
 }
 
-export function QuizReport({ score, totalQuestions, stars, expGained, onRetry, onNext, className }: QuizReportProps) {
-  const percentage = Math.round((score / totalQuestions) * 100);
-  
+export function QuizReport({ score, stars, expGained, onRetry, onNext, className }: QuizReportProps) {
   // Custom message based on score
   let message = "Coba Lagi!";
-  if (percentage >= 80) message = "Luar Biasa!";
-  else if (percentage >= 50) message = "Kerja Bagus!";
+  if (score >= 80) message = "Luar Biasa!";
+  else if (score >= 50) message = "Kerja Bagus!";
 
   return (
     <motion.div 
@@ -41,11 +38,11 @@ export function QuizReport({ score, totalQuestions, stars, expGained, onRetry, o
       <div className="mb-6 bg-slate-50 dark:bg-slate-900/50 rounded-2xl w-full p-4 border border-slate-100 dark:border-slate-700 shadow-inner">
         <div className="flex justify-between items-end mb-4">
           <div className="text-slate-500 font-semibold dark:text-slate-400">Skor Kamu</div>
-          <div className="text-4xl font-black text-primary drop-shadow-sm">{score}<span className="text-lg text-slate-400">/{totalQuestions}</span></div>
+          <div className="text-4xl font-black text-primary drop-shadow-sm">{score}<span className="text-lg text-slate-400">/100</span></div>
         </div>
         
         <div className="flex flex-col items-center gap-2 mb-2">
-          <StarRating value={stars} max={3} size="lg" />
+          <StarRating value={stars} max={5} size="lg" />
         </div>
 
         {expGained > 0 && (

@@ -115,9 +115,8 @@ export function QuizPage() {
                   className="w-full flex justify-center items-center my-auto py-8"
                 >
                   <QuizReport
-                    score={4}
-                    totalQuestions={5}
-                    stars={2}
+                    score={80}
+                    stars={4}
                     expGained={100}
                     onRetry={() => { setStep("quiz"); setStatus("idle"); setSelectedId(undefined); }}
                     onNext={() => navigate('/ux-lab/learning/map')}

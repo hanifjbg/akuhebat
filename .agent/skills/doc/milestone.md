@@ -16,43 +16,43 @@ Dokumen ini melacak seluruh progres pengembangan aplikasi, menggabungkan instruk
 ## Stage 2: Fondasi (Target Selanjutnya)
 - [x] DevOps: Scaffold Proyek Vite + React & Install semua Dependency (Selesai di awal sistem).
 - [x] Routing & Pages: Setup React Router. Pembuatan dummy page `/main` dan `/admin` (Under Construction).
-- [ ] Core Engine: Setup Event Bus (Event Dispatcher).
-- [ ] Core Engine: Setup Audio / Native TTS Adapter Singleton (Fallback-ready).
-- [ ] Core Engine: Dev Navigation Tool (Panel floating khusus di mode development).
-- [ ] State Management: Inisialisasi Zustand (Parent/Auth, Kids Session, Admin, UX-Lab Simulator).
+- [x] Core Engine: Setup Event Bus (Event Dispatcher).
+- [x] Core Engine: Setup Audio / Native TTS Adapter Singleton (Fallback-ready).
+- [x] Core Engine: Dev Navigation Tool (Panel floating khusus di mode development).
+- [x] State Management: Inisialisasi Zustand (Parent/Auth, Kids Session, Admin, UX-Lab Simulator).
 
 ## Stage 3: Pembangunan Paralel (Fokus Utama UI/UX-Lab) *TIDAK DIHAPUS*
 Setiap komponen dan halaman akan dibangun dengan status dummy/mock data di `/ux-lab` dengan 4 State Simulator (Normal, Loading, Empty, Error).
 
 ### 3.1 UX-Lab - Atoms (15 Komponen)
-- [ ] Button, Input, Label, Icon
-- [ ] Badge, Avatar, Spinner, Skeleton
-- [ ] Divider, ProgressBar, Checkbox
-- [ ] Radio, Switch, Slider, Tooltip
+- [x] Button, Input, Label, Icon
+- [x] Badge, Avatar, Spinner, Skeleton
+- [x] Divider, ProgressBar, Checkbox
+- [x] Radio, Switch, Slider, Tooltip
 
 ### 3.2 UX-Lab - Molecules (16 Komponen)
-- [ ] SearchBar, FormField, CardHeader, NavItem
-- [ ] QuizOption, Toast, AlertDialog, DropdownMenu
-- [ ] Select, Tabs, Sheet, AvatarGroup
-- [ ] Timer, WordCard, StarRating
+- [x] SearchBar, FormField, CardHeader, NavItem
+- [x] QuizOption, Toast, AlertDialog, DropdownMenu
+- [x] Select, Tabs, Sheet, AvatarGroup
+- [x] Timer, WordCard, StarRating
 
 ### 3.3 UX-Lab - Organisms (18 Komponen)
-- [ ] TopBar, BottomBar, LevelMap, QuizCard
-- [ ] QuizReport (Skor 10-100, Bintang 1-5)
-- [ ] ProfileCard, FriendCard, LeaderboardTable
-- [ ] MemoryBoard, BalloonField, WordBuilder, ColoringCanvas
-- [ ] PuzzleBoard, VersusPanel, TracingCanvas
-- [ ] StoryBook, KaraokeScreen, DanceScreen
+- [x] TopBar, BottomBar, LevelMap, QuizCard
+- [x] QuizReport (Skor 10-100, Bintang 1-5)
+- [x] ProfileCard, FriendCard, LeaderboardTable
+- [x] MemoryBoard, BalloonField, WordBuilder, ColoringCanvas
+- [x] PuzzleBoard, VersusPanel, TracingCanvas
+- [x] StoryBook, KaraokeScreen, DanceScreen
 
 ### 3.4 UX-Lab - Pengembangan Halaman (± 40 Halaman)
-- [ ] **Auth & Anak**: Parental Gate (PIN), Login, Pilih Anak, Tambah Anak, Profil.
-- [ ] **Belajar Anak**: Peta Level, Layar Kuis, Hasil Kuis, Hadiah/Naik Level, Koleksi Badge, Misi Harian.
-- [ ] **Sosial/Match**: Daftar Teman, Tambah Teman (via Ortu), Profil Teman, Undangan Tantangan, Terima Tantangan.
-- [ ] **Match/Versus**: Lobby, Arena Versus, Hasil Versus, Papan Peringkat.
-- [ ] **Mini Games**: Penyusun Kata (Suku Kata), Memori Match, Balon Pecah, Menulis Huruf, Kuis Suara, dll.
-- [ ] **Aktivitas Fullscreen**: Waktu Cerita, Karaoke, Dance, Baca Nyaring.
-- [ ] **Admin / Parental Control Panel**: Login, Dashboard Statistik (Heatmap), Kustomisasi UI/Teks, Screen Time Limit, Module Override.
-- [ ] **Umum**: 404, Under Construction, Error Boundary, Showcase Komponen.
+- [x] **Auth & Anak**: Parental Gate (PIN), Login, Pilih Anak, Tambah Anak, Profil.
+- [x] **Belajar Anak**: Peta Level, Layar Kuis, Hasil Kuis, Hadiah/Naik Level, Koleksi Badge, Misi Harian.
+- [x] **Sosial/Match**: Daftar Teman, Tambah Teman (via Ortu), Profil Teman, Undangan Tantangan, Terima Tantangan.
+- [x] **Match/Versus**: Lobby, Arena Versus, Hasil Versus, Papan Peringkat.
+- [x] **Mini Games**: Penyusun Kata (Suku Kata), Memori Match, Balon Pecah, Menulis Huruf, Kuis Suara, dll.
+- [x] **Aktivitas Fullscreen**: Waktu Cerita, Karaoke, Dance, Baca Nyaring.
+- [x] **Admin / Parental Control Panel**: Login, Dashboard Statistik (Heatmap), Kustomisasi UI/Teks, Screen Time Limit, Module Override.
+- [x] **Umum**: 404, Under Construction, Error Boundary, Showcase Komponen.
 
 ## Stage 4: Integrasi & Backend (Logika Bisnis)
 - [ ] Backend: Firebase Auth, Firestore Config, Skema Word Bank.

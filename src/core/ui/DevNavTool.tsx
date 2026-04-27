@@ -56,6 +56,7 @@ export function DevNavTool() {
                   <a href="/ux-lab/minigames/words" onClick={() => setIsOpen(false)} className="col-span-2 px-3 py-2 text-sm bg-slate-50 hover:bg-slate-100 rounded-lg">Susun Kata</a>
                   <a href="/ux-lab/minigames/coloring" onClick={() => setIsOpen(false)} className="col-span-2 px-3 py-2 text-sm bg-slate-50 hover:bg-slate-100 rounded-lg">Mewarnai</a>
                   <a href="/ux-lab/fullscreen/story" onClick={() => setIsOpen(false)} className="col-span-2 px-3 py-2 text-sm bg-slate-50 hover:bg-slate-100 rounded-lg">Buku Cerita</a>
+                  <a href="/ux-lab/admin/dashboard" onClick={() => setIsOpen(false)} className="col-span-2 px-3 py-2 text-sm bg-orange-50 hover:bg-orange-100 text-orange-700 rounded-lg font-bold">Admin/Parent Dashboard</a>
                 </div>
               </div>
 
