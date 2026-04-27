@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700;900&display=swap');
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Quicksand", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-admin: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  /* Claymorphism Shadows (Solid 3D Emboss) */
+  --shadow-clay-sm: 0px 4px 0px var(--clay-solid-shadow), inset 0px 2px 4px var(--clay-border), inset 0px -4px 8px rgba(0,0,0,0.1);
+  --shadow-clay-md: 0px 6px 0px var(--clay-solid-shadow-md), inset 0px 3px 6px var(--clay-border), inset 0px -6px 12px rgba(0,0,0,0.15);
+  --shadow-clay-lg: 0px 8px 0px var(--clay-solid-shadow-md), inset 0px 4px 8px var(--clay-border), inset 0px -8px 16px rgba(0,0,0,0.2);
+  
+  /* Pressed state for Claymorphism */
+  --shadow-clay-pressed: 0px 0px 0px transparent, inset 0px 4px 8px rgba(0,0,0,0.15), inset 0px -2px 4px var(--clay-border);
+
+  --radius-clay: 1.5rem;
+  --radius-clay-sm: 1rem;
+  --radius-clay-full: 9999px;
+}
+
+@layer base {
+  :root {
+    /* Warm Cream Off-white base for light mode */
+    --background: #fffbf0;
+    --foreground: #5c4c41;
+    
+    --primary: #f472b6; /* Playful Pink */
+    --primary-foreground: #ffffff;
+    --secondary: #3b82f6; /* Blue */
+    --secondary-foreground: #ffffff;
+    --accent: #fcd34d; /* Yellow */
+    --accent-foreground: #b45309;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+
+    /* Clay shadow primitives - Light Mode */
+    --pattern-color: rgba(163, 177, 198, 0.2);
+    --clay-border: rgba(255, 255, 255, 0.8);
+    --clay-solid-shadow: rgba(0, 0, 0, 0.08); /* Replaced big blur with short shadow */
+    --clay-solid-shadow-md: rgba(0, 0, 0, 0.12);
+  }
+
+  .dark {
+    /* Soft dark grey-blue base for dark mode (not pure black) */
+    --background: #1e293b;
+    --foreground: #f8fafc;
+    
+    --primary: #38bdf8; /* Bright Sky Blue for better dark mode contrast */
+    --primary-foreground: #0f172a;
+    --secondary: #8b5cf6; /* Violet */
+    --secondary-foreground: #ffffff;
+    --accent: #fcd34d;
+    --accent-foreground: #1e293b;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+
+    /* Clay shadow primitives - Dark Mode 
+       NO GLOW. Solid 3D soft emboss. Outer light shadow is very subtle. */
+    --pattern-color: rgba(255, 255, 255, 0.08);
+    --clay-border: rgba(255, 255, 255, 0.08);
+    --clay-solid-shadow: rgba(0, 0, 0, 0.4);
+    --clay-solid-shadow-md: rgba(0, 0, 0, 0.6);
+  }
+
+  /* Specific theme override for Admin layout to be flat/neutral */
+  .theme-admin {
+    --background: #f8fafc;
+    --foreground: #0f172a;
+    font-family: var(--font-admin);
+  }
+}
+
+@theme {
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@layer base {
+  html, body {
+    height: 100%;
+    overscroll-behavior: none;
+  }
+  
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    /* Pattern background for playfulness */
+    background-image: radial-gradient(var(--pattern-color) 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
+    background-position: 0 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    @apply font-sans antialiased;
+  }
+  
+  .theme-admin body {
+    background-image: none;
+  }
+}
